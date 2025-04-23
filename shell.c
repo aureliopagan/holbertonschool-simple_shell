@@ -1,8 +1,8 @@
 #include "main.h"
 
 /**
- * execute_command - Executes external command using execvp
- * @args: arguments (including command)
+ * execute_command - Executes an external command using execve
+ * @args: Arguments (including command)
  */
 void execute_command(char **args)
 {
@@ -16,9 +16,9 @@ void execute_command(char **args)
 	}
 	else if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execve(args[0], args, environ) == -1)
 		{
-			perror("./shell");
+			perror(args[0]);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -54,12 +54,14 @@ int main(void)
 		if (args[0] != NULL)
 		{
 			if (!handle_builtin(args))
+			{
 				execute_command(args);
+			}
 		}
 
 		free_args(args);
 		free(input);
 	}
+
 	return (0);
 }
-
