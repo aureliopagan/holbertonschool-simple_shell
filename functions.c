@@ -5,7 +5,7 @@
  */
 void display_prompt(void)
 {
-    write(STDOUT_FILENO, "#shell$ ", 8);  // Fixed length (was 7, should be 8)
+    write(STDOUT_FILENO, "#shell$ ", 8); 
 }
 
 /**
