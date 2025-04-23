@@ -5,7 +5,7 @@
  */
 void display_prompt(void)
 {
-	write(STDOUT_FILENO, "#shell$ ", 7);
+    write(STDOUT_FILENO, "#shell$ ", 8);  // Fixed length (was 7, should be 8)
 }
 
 /**
@@ -15,21 +15,21 @@ void display_prompt(void)
  */
 char *read_input(void)
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t read;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
 
-	read = getline(&line, &len, stdin);
-	if (read == -1)
-	{
-		free(line);
-		return (NULL);
-	}
+    read = getline(&line, &len, stdin);
+    if (read == -1)
+    {
+        free(line);
+        return (NULL);
+    }
 
-	if (line[read - 1] == '\n')
-		line[read - 1] = '\0';
+    if (line[read - 1] == '\n')
+        line[read - 1] = '\0';
 
-	return (line);
+    return (line);
 }
 
 /**
@@ -40,35 +40,35 @@ char *read_input(void)
  */
 char **parse_input(char *input)
 {
-	char **args = NULL;
-	char *token = NULL;
-	int bufsize = 64, i = 0;
+    char **args = NULL;
+    char *token = NULL;
+    int bufsize = 64, i = 0;
 
-	args = malloc(sizeof(char *) * bufsize);
-	if (args == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+    args = malloc(sizeof(char *) * bufsize);
+    if (args == NULL)
+    {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
-	token = strtok(input, " ");
-	while (token != NULL)
-	{
-		args[i++] = token;
-		if (i >= bufsize)
-		{
-			bufsize += 64;
-			args = realloc(args, sizeof(char *) * bufsize);
-			if (args == NULL)
-			{
-				perror("realloc");
-				exit(EXIT_FAILURE);
-			}
-		}
-		token = strtok(NULL, " ");
-	}
-	args[i] = NULL;
-	return (args);
+    token = strtok(input, " ");
+    while (token != NULL)
+    {
+        args[i++] = token;
+        if (i >= bufsize)
+        {
+            bufsize += 64;
+            args = realloc(args, sizeof(char *) * bufsize);
+            if (args == NULL)
+            {
+                perror("realloc");
+                exit(EXIT_FAILURE);
+            }
+        }
+        token = strtok(NULL, " ");
+    }
+    args[i] = NULL;
+    return (args);
 }
 
 /**
@@ -77,6 +77,5 @@ char **parse_input(char *input)
  */
 void free_args(char **args)
 {
-	free(args);
+    free(args);
 }
-

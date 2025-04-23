@@ -6,26 +6,26 @@
  */
 void execute_command(char **args)
 {
-	pid_t pid;
+    pid_t pid;
 
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return;
-	}
-	else if (pid == 0)
-	{
-		if (execve(args[0], args, environ) == -1)
-		{
-			perror(args[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		wait(NULL);
-	}
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("fork");
+        return;
+    }
+    else if (pid == 0)
+    {
+        if (execve(args[0], args, environ) == -1)
+        {
+            perror(args[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        wait(NULL);
+    }
 }
 
 /**
@@ -35,33 +35,37 @@ void execute_command(char **args)
  */
 int main(void)
 {
-	char *input;
-	char **args;
+    char *input;
+    char **args;
+    int interactive = isatty(STDIN_FILENO);
 
-	while (1)
-	{
-		display_prompt();
-		input = read_input();
+    while (1)
+    {
+        if (interactive)
+            display_prompt();
+            
+        input = read_input();
 
-		if (input == NULL)
-		{
-			write(STDOUT_FILENO, "\n", 1);
-			break;
-		}
+        if (input == NULL)
+        {
+            if (interactive)
+                write(STDOUT_FILENO, "\n", 1);
+            break;
+        }
 
-		args = parse_input(input);
+        args = parse_input(input);
 
-		if (args[0] != NULL)
-		{
-			if (!handle_builtin(args))
-			{
-				execute_command(args);
-			}
-		}
+        if (args[0] != NULL)
+        {
+            if (!handle_builtin(args))
+            {
+                execute_command(args);
+            }
+        }
 
-		free_args(args);
-		free(input);
-	}
+        free_args(args);
+        free(input);
+    }
 
-	return (0);
+    return (0);
 }

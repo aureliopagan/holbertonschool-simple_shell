@@ -18,4 +18,3 @@ int handle_builtin(char **args);
 void free_args(char **args);
 
 #endif /* MAIN_H */
-
