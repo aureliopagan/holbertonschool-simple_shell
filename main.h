@@ -19,5 +19,6 @@ void execute_command(char **args);
 int handle_builtin(char **args);
 void free_args(char **args);
 char *find_path(char *cmd);
+void print_environment(void);
 
 #endif /* MAIN_H */
