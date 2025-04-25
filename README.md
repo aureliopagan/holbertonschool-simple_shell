@@ -35,6 +35,6 @@ Example commands
 - AUTHORS - Project contributors 
 - man_1_simple_shell - Manual page
 
-##Authors
+## Authors
 - [Valeria Bonilla](https://github.com/valeriabonilla19)
 - [Aurelio Pagan](https://github.com/aureliopagan)
