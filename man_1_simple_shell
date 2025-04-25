@@ -1,1 +1,80 @@
-Creating the man page
+.TH simple_shell 1 "April 2025" "v1.0" "User Commands"
+.SH NAME
+simple_shell \- a simple UNIX command line interpreter
+.SH SYNOPSIS
+.B hsh
+.SH DESCRIPTION
+.B simple_shell
+is a basic UNIX command interpreter written in C. It replicates the behavior of a traditional shell by reading input, parsing commands, and executing them. It supports interactive and non-interactive modes.
+
+.SH FEATURES
+.TP
+.B Interactive Mode:
+Accepts and executes commands typed by the user line-by-line.
+
+.TP
+.B Non-Interactive Mode:
+Executes commands passed via a file or piped into the shell.
+
+.TP
+.B Built-In Commands:
+.RS
+.TP
+.B exit
+Exits the shell.
+.TP
+.B env
+Prints the current environment variables.
+.RE
+
+.TP
+.B Path Resolution:
+Executes programs by searching through directories listed in the PATH environment variable.
+
+.SH OPTIONS
+This shell does not currently accept command-line options. Start the program without arguments:
+.EX
+./hsh
+.EE
+
+.SH EXIT STATUS
+The shell returns the exit status of the last command executed.
+
+- `0` on success  
+- Non-zero on failure (custom error codes may be used for built-ins)
+
+.SH USAGE
+Run the shell with:
+.B ./hsh
+
+Example session:
+.EX
+$ ./hsh
+$ ls
+$ /bin/ls
+$ env
+$ exit
+.EE
+
+.SH FILES
+.TP
+.B shell.c
+Contains the main shell loop and command execution logic.
+
+.TP
+.B builtins.c
+Implements built-in commands like exit and env.
+
+.TP
+.B functions.c
+Utility functions for parsing input and handling strings.
+
+.TP
+.B main.h
+Header file containing macros and function prototypes.
+
+.SH AUTHORS
+Valeria Bonilla Rivera <valeriabonillarivera02@gmail.com>
+Aurelio G. Pagan Santana <aurepgst@gmail.com>
+.SH SEE ALSO
+sh(1), bash(1), execve(2), fork(2)
