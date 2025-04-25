@@ -7,8 +7,6 @@ This is a basic UNIX command line interpreter (shell) written in C as part of th
 ---
 
 ## How to Compile
-
-```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 ## Usage
