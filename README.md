@@ -11,13 +11,13 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 ## Usage
 Run the shell with
--./hsh
+- ./hsh
 
 Example commands
--$ ls
--$ /bin/ls
--$ echo Hello, world
--$ exit
+- $ ls
+- $ /bin/ls
+- $ echo Hello, world
+- $ exit
 
 ## Features
 - Executes commands with arguments
