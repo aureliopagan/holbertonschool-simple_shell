@@ -6,35 +6,37 @@
 #include <string.h>
 
 /**
-* handle_child_process - Handles the child process execution
+* handle_child_process - Handles child process execution
 * @args: Command arguments
 * @full_path: Full path to command
 */
-void handle_child_process(char **args, char *full_path)
+static void handle_child_process(char **args, char *full_path)
 {
-if (execve(args[0], args, environ) == -1)
-{
+execve(args[0], args, environ);
 perror(args[0]);
 if (full_path)
+{
 free(full_path);
-exit(EXIT_FAILURE);
 }
+exit(EXIT_FAILURE);
 }
 
 /**
-* handle_parent_process - Handles the parent process waiting
+* handle_parent_process - Handles parent process waiting
 * @full_path: Full path to command
 */
-void handle_parent_process(char *full_path)
+static void handle_parent_process(char *full_path)
 {
 wait(NULL);
 if (full_path)
+{
 free(full_path);
+}
 }
 
 /**
-* execute_command - Executes an external command using execve
-* @args: Arguments (including command)
+* execute_command - Executes external commands
+* @args: Argument array
 */
 void execute_command(char **args)
 {
@@ -57,7 +59,9 @@ if (pid == -1)
 {
 perror("fork");
 if (full_path)
+{
 free(full_path);
+}
 return;
 }
 else if (pid == 0)
@@ -71,37 +75,52 @@ handle_parent_process(full_path);
 }
 
 /**
-* main - Entry point of the shell
-* Return: Always 0
+* cleanup_resources - Frees allocated memory
+* @args: Argument array
+* @input: Input string
+*/
+static void cleanup_resources(char **args, char *input)
+{
+free_args(args);
+free(input);
+}
+
+/**
+* main - Entry point
+* Return: 0 on success
 */
 int main(void)
 {
-char *input;
-char **args;
+char *input = NULL;
+char **args = NULL;
 int interactive = isatty(STDIN_FILENO);
 
 while (1)
 {
 if (interactive)
+{
 display_prompt();
+}
 
 input = read_input();
 if (!input)
 {
 if (interactive)
+{
 write(STDOUT_FILENO, "\n", 1);
+}
 break;
 }
 
 args = parse_input(input);
-if (args[0])
+if (args[0] && !handle_builtin(args))
 {
-if (!handle_builtin(args))
 execute_command(args);
 }
 
-free_args(args);
-free(input);
+cleanup_resources(args, input);
+args = NULL;
+input = NULL;
 }
 return (0);
 }
